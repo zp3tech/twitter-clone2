@@ -58,6 +58,16 @@ var app = new Vue({
         stringTweets = JSON.stringify(this.tweets)
         localStorage.setItem('simple_tweet_tweets', stringTweets)
     },
+
+    removeTweet(index) {
+        let removeIt = confirm("Are you sure you want to remove this tweet?")
+        if (removeIt) {
+            //removes from tweets array
+            this.tweets.splice(index, 1);
+            //updates localStorage to match new tweets array (w/o deleted tweet)
+            localStorage.simple_tweet_tweets = JSON.stringify(this.tweets);
+        }
+    },
   },
 
   created() {

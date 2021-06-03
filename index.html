@@ -53,14 +53,21 @@
       <!-- only shows when already registered -->
       <!-- add a tweet -->
       <div v-else class="tweetBox">
-        <h1>Welcome {{ userData.name }}, write your first Tweet </h1>
+        <h1>Welcome {{ userData.name }}, write your first Tweet</h1>
         <form @submit.prevent="sendTweet">
           <div class="form_group">
             <label for="tweet">
               Send your Tweet
               <span>{{ tweetMsg.length + '/' + max_tweet }}</span>
             </label>
-            <textarea name="tweet" id="tweet" cols="30" rows="15" v-model="tweetMsg" maxlength="200"></textarea>
+            <textarea
+              name="tweet"
+              id="tweet"
+              cols="30"
+              rows="15"
+              v-model="tweetMsg"
+              maxlength="200"
+            ></textarea>
           </div>
           <button type="submit">Tweet</button>
         </form>
@@ -75,12 +82,17 @@
               <i class="fas fa-calendar-alt fa-sm fa-fw"></i>
               {{tweet.date}}
             </div>
+            <div class="tweet_remove" @click="removeTweet(index)">
+              <span class="remove"
+                >Delete this Tweet <i class="fas fa-trash fa-xs fa-fw"></i
+              ></span>
+            </div>
           </div>
         </section>
         <div v-else>No tweets to show</div>
       </div>
-
-    </div><!-- this is app div -->
+    </div>
+    <!-- this is app div -->
   </body>
   <script src="./assets/js/main.js"></script>
 </html>
