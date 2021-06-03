@@ -2,26 +2,56 @@ var app = new Vue({
   el: "#app",
 
   data: {
-    tweet: "",
-    tweets: [],
-    max_length: 200,
+    userData: {},
+    userId: 0,
+    name: "",
+    email: "",
+    password: "",
+    max_length: 25,
+    max_pass_length: 16,
+    error: "",
+    registered: false,
   },
 
-  computed: {
-    maxCharsText: function() {
-        return `${this.tweet.length} characters used of ${this.max_length} (${this.max_length - this.tweet.length} remaining)`;
-    },
-    errorMessage: function() {
-        return `Max char limit reached! excess chars: ${this.tweet.length - this.max_length}`
-    },
-  },
+  computed: {},
 
   methods: {
-    submitData() {
-      if (this.tweet.length > 0 && this.tweet.length <= this.max_length) {
-        this.tweets.unshift(this.tweet);
-        this.tweet = "";
+    registerAccount() {
+      //validation
+      if (this.name !== "" && this.email !== "" && this.password !== "") {
+        //records user details
+        this.userData.id = ++this.userId;
+        this.userData.name = this.name;
+        this.userData.email = this.email;
+        this.userData.password = this.password;
+      } else {
+        this.error = "Complete all the form fields";
       }
+
+      //adds registration data to localStorage
+      localStorage.setItem("simple_tweet_registered", true);
+      //adds the whole userData object as JSON string
+      localStorage.setItem(
+        "simple_tweet_registered_user",
+        JSON.stringify(this.userData)
+      );
+
+      //clears the registration fields
+      this.name = "";
+      this.email = "";
+      this.password = "";
     },
+  },
+  
+  created() {
+    if (localStorage.getItem("simple_tweet_registered") === "true") {
+      this.registered = true;
+    }
+    //repopulates userData object
+    if (localStorage.getItem("simple_tweet_registered_user")) {
+      this.userData = JSON.parse(
+        localStorage.getItem("simple_tweet_registered_user")
+      );
+    }
   },
 });
