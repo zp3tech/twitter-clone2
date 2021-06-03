@@ -11,6 +11,9 @@ var app = new Vue({
     max_pass_length: 16,
     error: "",
     registered: false,
+    tweetMsg: "",
+    max_tweet: 200,
+    tweets: [],
   },
 
   computed: {},
@@ -41,8 +44,22 @@ var app = new Vue({
       this.email = "";
       this.password = "";
     },
+
+    sendTweet() {
+        //adds tweetMsg string to tweets array
+        this.tweets.unshift({
+            text: this.tweetMsg,
+            date: new Date().toLocaleTimeString(),
+        });
+        //empty the textarea of tweetMsg text
+        this.tweetMsg = "";
+
+        //localStorage
+        stringTweets = JSON.stringify(this.tweets)
+        localStorage.setItem('simple_tweet_tweets', stringTweets)
+    },
   },
-  
+
   created() {
     if (localStorage.getItem("simple_tweet_registered") === "true") {
       this.registered = true;
@@ -52,6 +69,13 @@ var app = new Vue({
       this.userData = JSON.parse(
         localStorage.getItem("simple_tweet_registered_user")
       );
+    }
+    //parse tweets from localStorage and readd to tweets array
+    if (localStorage.getItem("simple_tweet_tweets")) {
+        console.log("this is a list of tweets");
+        this.tweets = JSON.parse(localStorage.getItem('simple_tweet_tweets'))
+    } else {
+        console.log('No tweets here');
     }
   },
 });

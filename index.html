@@ -21,47 +21,66 @@
     <div id="app" class="card">
       <i class="fab fa-twitter fa-lg fa-lw"></i>
       <!-- register for account -->
-        <div class="register" v-if="!registered">
-          <h2>Create your account</h2>
-          <form @submit.prevent="registerAccount">
-            <div class="form_group">
-              <label for="name"
-                >Name
-                <span>{{ `${name.length} / ${max_length}` }}</span>
-              </label>
-              <input type="text" v-model="name" maxlength="25" required />
+      <div class="register" v-if="!registered">
+        <h2>Create your account</h2>
+        <form @submit.prevent="registerAccount">
+          <div class="form_group">
+            <label for="name"
+              >Name
+              <span>{{ `${name.length} / ${max_length}` }}</span>
+            </label>
+            <input type="text" v-model="name" maxlength="25" required />
+          </div>
+          <div class="form_group">
+            <label for="email"
+              >Email
+              <span>{{ `${email.length} / ${max_length}` }}</span>
+            </label>
+            <input type="email" v-model="email" maxlength="25" required />
+          </div>
+          <div class="form_group">
+            <label for="password"
+              >Password
+              <span>{{ `${password.length} / ${max_pass_length}` }}</span>
+            </label>
+            <input type="password" v-model="password" maxlength="16" required />
+          </div>
+          <button type="submit">Register</button>
+        </form>
+        <div v-if="error.length > 0">{{error}}</div>
+      </div>
+
+      <!-- only shows when already registered -->
+      <!-- add a tweet -->
+      <div v-else class="tweetBox">
+        <h1>Welcome {{ userData.name }}, write your first Tweet </h1>
+        <form @submit.prevent="sendTweet">
+          <div class="form_group">
+            <label for="tweet">
+              Send your Tweet
+              <span>{{ tweetMsg.length + '/' + max_tweet }}</span>
+            </label>
+            <textarea name="tweet" id="tweet" cols="30" rows="15" v-model="tweetMsg" maxlength="200"></textarea>
+          </div>
+          <button type="submit">Tweet</button>
+        </form>
+      </div>
+      <!-- Show all tweets -->
+      <div class="card_tweets">
+        <section class="tweets" v-if="tweets.length > 0">
+          <h2>Tweets</h2>
+          <div class="tweetMsg" v-for="(tweet, index) in tweets">
+            <p>{{tweet.text}}</p>
+            <div class="tweetDate">
+              <i class="fas fa-calendar-alt fa-sm fa-fw"></i>
+              {{tweet.date}}
             </div>
-            <div class="form_group">
-              <label for="email"
-                >Email
-                <span>{{ `${email.length} / ${max_length}` }}</span>
-              </label>
-              <input type="email" v-model="email" maxlength="25" required />
-            </div>
-            <div class="form_group">
-              <label for="password"
-                >Password
-                <span>{{ `${password.length} / ${max_pass_length}` }}</span>
-              </label>
-              <input
-                type="password"
-                v-model="password"
-                maxlength="16"
-                required
-              />
-            </div>
-            <button type="submit">Register</button>
-          </form>
-          <div v-if="error.length > 0">{{error}}</div>
-        </div>
-        <!-- add a tweet -->
-        <div v-else>
-          <h1>Welcome {{userData.name}} write your first tweet!</h1>
-        </div>
-        
-        <!-- Show all tweets -->
-      
-    </div>
+          </div>
+        </section>
+        <div v-else>No tweets to show</div>
+      </div>
+
+    </div><!-- this is app div -->
   </body>
   <script src="./assets/js/main.js"></script>
 </html>
