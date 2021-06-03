@@ -1,3 +1,25 @@
+Vue.component("tweet-message", {
+  props: {
+    text: String,
+    
+  },
+  template: `
+    <div :class="tweetBoxWrapper">
+        <p> {{text}} </p>
+        <p :class="dateClass"> {{now}} </p>
+    </div>
+  `,
+  //add data props as data() function that returns an object
+  data() {
+      return {
+        tweetBoxWrapper: "tweet-message",
+        dateClass: "tweet-date",
+        now: new Date().toDateString(),
+        message: this.text,
+      }
+  },
+});
+
 var app = new Vue({
   el: "#app",
 
@@ -46,27 +68,27 @@ var app = new Vue({
     },
 
     sendTweet() {
-        //adds tweetMsg string to tweets array
-        this.tweets.unshift({
-            text: this.tweetMsg,
-            date: new Date().toLocaleTimeString(),
-        });
-        //empty the textarea of tweetMsg text
-        this.tweetMsg = "";
+      //adds tweetMsg string to tweets array
+      this.tweets.unshift({
+        text: this.tweetMsg,
+        date: new Date().toLocaleTimeString(),
+      });
+      //empty the textarea of tweetMsg text
+      this.tweetMsg = "";
 
-        //localStorage
-        stringTweets = JSON.stringify(this.tweets)
-        localStorage.setItem('simple_tweet_tweets', stringTweets)
+      //localStorage
+      stringTweets = JSON.stringify(this.tweets);
+      localStorage.setItem("simple_tweet_tweets", stringTweets);
     },
 
     removeTweet(index) {
-        let removeIt = confirm("Are you sure you want to remove this tweet?")
-        if (removeIt) {
-            //removes from tweets array
-            this.tweets.splice(index, 1);
-            //updates localStorage to match new tweets array (w/o deleted tweet)
-            localStorage.simple_tweet_tweets = JSON.stringify(this.tweets);
-        }
+      let removeIt = confirm("Are you sure you want to remove this tweet?");
+      if (removeIt) {
+        //removes from tweets array
+        this.tweets.splice(index, 1);
+        //updates localStorage to match new tweets array (w/o deleted tweet)
+        localStorage.simple_tweet_tweets = JSON.stringify(this.tweets);
+      }
     },
   },
 
@@ -82,10 +104,10 @@ var app = new Vue({
     }
     //parse tweets from localStorage and readd to tweets array
     if (localStorage.getItem("simple_tweet_tweets")) {
-        console.log("this is a list of tweets");
-        this.tweets = JSON.parse(localStorage.getItem('simple_tweet_tweets'))
+      console.log("this is a list of tweets");
+      this.tweets = JSON.parse(localStorage.getItem("simple_tweet_tweets"));
     } else {
-        console.log('No tweets here');
+      console.log("No tweets here");
     }
   },
 });

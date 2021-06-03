@@ -53,7 +53,10 @@
       <!-- only shows when already registered -->
       <!-- add a tweet -->
       <div v-else class="tweetBox">
-        <h1>Welcome {{ userData.name }}, write your first Tweet</h1>
+        <h1>
+          Welcome {{ userData.name }}!
+          <span v-if="tweets.length === 0"> Tweet your first Tweet </span>
+        </h1>
         <form @submit.prevent="sendTweet">
           <div class="form_group">
             <label for="tweet">
@@ -91,8 +94,11 @@
         </section>
         <div v-else>No tweets to show</div>
       </div>
+        <tweet-message
+          text="this is a component"
+        ></tweet-message>
+      <!-- this is app div -->
     </div>
-    <!-- this is app div -->
   </body>
   <script src="./assets/js/main.js"></script>
 </html>
