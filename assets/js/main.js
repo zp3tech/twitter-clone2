@@ -1,23 +1,22 @@
 Vue.component("tweet-message", {
   props: {
-    text: String,
-    
+      'tweet': Object,
+
   },
   template: `
-    <div :class="tweetBoxWrapper">
-        <p> {{text}} </p>
-        <p :class="dateClass"> {{now}} </p>
-    </div>
-  `,
-  //add data props as data() function that returns an object
-  data() {
-      return {
-        tweetBoxWrapper: "tweet-message",
-        dateClass: "tweet-date",
-        now: new Date().toDateString(),
-        message: this.text,
-      }
-  },
+    <div class="tweetMsg">
+        <p>{{tweet.text}}</p>
+        <div class="tweetDate">
+        <i class="fas fa-calendar-alt fa-sm fa-fw"></i>
+        {{tweet.date}}
+        </div>
+        <div class="tweet_remove" @click="$emit('remove-tweet', 'index')">
+            <span class="remove">
+            Delete this Tweet <i class="fas fa-trash fa-xs fa-fw"></i>
+            </span>
+        </div>
+    </div>    
+    `,
 });
 
 var app = new Vue({

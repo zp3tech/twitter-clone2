@@ -19,7 +19,10 @@
 
   <body>
     <div id="app" class="card">
-      <i class="fab fa-twitter fa-lg fa-lw"></i>
+      <h1>
+        <i class="fab fa-twitter fa-lg fa-lw"></i>
+        Twitter Clone
+      </h1>
       <!-- register for account -->
       <div class="register" v-if="!registered">
         <h2>Create your account</h2>
@@ -53,10 +56,10 @@
       <!-- only shows when already registered -->
       <!-- add a tweet -->
       <div v-else class="tweetBox">
-        <h1>
+        <h2>
           Welcome {{ userData.name }}!
-          <span v-if="tweets.length === 0"> Tweet your first Tweet </span>
-        </h1>
+          <span v-if="tweets.length === 0"> Tweet your first Tweet below </span>
+        </h2>
         <form @submit.prevent="sendTweet">
           <div class="form_group">
             <label for="tweet">
@@ -79,24 +82,16 @@
       <div class="card_tweets">
         <section class="tweets" v-if="tweets.length > 0">
           <h2>Tweets</h2>
-          <div class="tweetMsg" v-for="(tweet, index) in tweets">
-            <p>{{tweet.text}}</p>
-            <div class="tweetDate">
-              <i class="fas fa-calendar-alt fa-sm fa-fw"></i>
-              {{tweet.date}}
-            </div>
-            <div class="tweet_remove" @click="removeTweet(index)">
-              <span class="remove"
-                >Delete this Tweet <i class="fas fa-trash fa-xs fa-fw"></i
-              ></span>
-            </div>
-          </div>
+          <tweet-message
+            v-for="(tweet, index) in tweets"
+            v-bind:tweet="tweet"
+            :key="index"
+            @remove-tweet="removeTweet(index)"
+          ></tweet-message>
         </section>
         <div v-else>No tweets to show</div>
       </div>
-        <tweet-message
-          text="this is a component"
-        ></tweet-message>
+      <tweet-message text="this is a component"></tweet-message>
       <!-- this is app div -->
     </div>
   </body>
